@@ -1,0 +1,46 @@
+<resources>
+
+    <!--    <style name="Widget.Theme.CryptoLuckyDraw.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">-->
+    <!--        <item name="android:background">@color/black_overlay</item>-->
+    <!--        <item name="android:navigationBarColor">@color/main_background</item>-->
+    <!--    </style>-->
+
+    <!--    <style name="Widget.Theme.CryptoLuckyDraw.ButtonBar.Fullscreen" parent="">-->
+    <!--        <item name="android:background">@color/black_overlay</item>-->
+    <!--        <item name="android:navigationBarColor">@color/main_background</item>-->
+    <!--        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>-->
+    <!--    </style>-->
+
+    <style name="Widget.Theme.CryptoLuckyDraw.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:navigationBarColor">@color/main_background</item>
+    </style>
+
+    <style name="Widget.Theme.CryptoLuckyDraw.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/black_overlay</item>
+        <item name="android:navigationBarColor">@color/main_background</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+
+    <style name="BottomSheetDialogStyle" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottomSheetBackground</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:navigationBarColor">@color/main_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="bottomSheetBackground" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_dialog_rounded</item>
+    </style>
+
+    <style name="Widget.Theme.MeterScan.ActionBar.Fullscreen" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/main_background</item>
+    </style>
+
+    <style name="Widget.Theme.MeterScan.ButtonBar.Fullscreen" parent="">
+        <item name="android:background">@color/main_background</item>
+        <item name="android:buttonBarStyle">?android:attr/buttonBarStyle</item>
+    </style>
+
+</resources>
