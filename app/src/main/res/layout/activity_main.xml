@@ -17,12 +17,12 @@ android:background="@color/main_background">
     app:layout_constraintGuide_percent="0.55" />
 
 
-<androidx.constraintlayout.widget.Guideline
-    android:id="@+id/guideline4"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    app:layout_constraintGuide_percent="0.85" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.78" />
 
 <androidx.constraintlayout.widget.Guideline
     android:id="@+id/guideline5"
@@ -74,24 +74,23 @@ android:background="@color/main_background">
         app:layout_constraintWidth_percent="0.7" />
 
 
-
     <Button
         android:id="@+id/buttonView"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:backgroundTint="@color/black"
         android:foreground="?android:attr/selectableItemBackground"
-        android:textColor="@color/white"
         android:text="Capture"
         android:textAllCaps="false"
+        android:textColor="@color/white"
         android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.125"
+        app:layout_constraintHorizontal_bias="0.101"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_bias="0.133"
         app:layout_constraintWidth_percent="0.4" />
 
     <Button
@@ -100,17 +99,17 @@ android:background="@color/main_background">
         android:layout_height="70dp"
         android:backgroundTint="@color/black"
         android:foreground="?android:attr/selectableItemBackground"
-        android:textColor="@color/white"
         android:text="Upload"
         android:textAllCaps="false"
+        android:textColor="@color/white"
         android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintHorizontal_bias="0.894"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4"
-        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintVertical_bias="0.133"
         app:layout_constraintWidth_percent="0.4" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -128,5 +127,24 @@ android:background="@color/main_background">
     android:orientation="horizontal"
     app:layout_constraintGuide_percent="0.08" />
 
+    <Button
+        android:id="@+id/history"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:backgroundTint="@color/white"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:text="Your History"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:cornerRadius="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.56"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintWidth_percent="0.4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

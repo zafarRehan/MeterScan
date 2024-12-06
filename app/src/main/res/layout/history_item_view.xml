@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/buttom_bg_radius">
+    android:background="@color/main_background">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,22 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-
-
-        <TextView
-            android:id="@+id/dialog_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:text="Detections"
-            android:textColor="@color/gray"
-            android:textSize="22sp" />
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="10.dp"></View>
 
         <ImageView
             android:id="@+id/displayLCD"
@@ -64,7 +48,7 @@
                 android:layout_centerVertical="true"
                 android:text="Reading"
                 android:textColor="@color/gray"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
 
@@ -76,7 +60,7 @@
                 android:paddingTop="10dp"
                 android:text="Today, 12:30 AM"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/valueConf"
@@ -87,7 +71,7 @@
                 android:paddingTop="35dp"
                 android:text="Today, 12:30 AM"
                 android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
@@ -114,7 +98,7 @@
                 android:textStyle="bold"
                 android:text="Unit"
                 android:textColor="@color/gray"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
 
             <TextView
@@ -125,7 +109,7 @@
                 android:paddingTop="10dp"
                 android:text="Today, 12:30 AM"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/unitConf"
@@ -136,7 +120,7 @@
                 android:paddingTop="35dp"
                 android:text="Today, 12:30 AM"
                 android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
@@ -162,7 +146,7 @@
                 android:textStyle="bold"
                 android:text="Max. Demand"
                 android:textColor="@color/gray"
-                android:textSize="20sp" />
+                android:textSize="16sp" />
 
 
             <TextView
@@ -173,7 +157,7 @@
                 android:paddingTop="10dp"
                 android:text="Today, 12:30 AM"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/mdDetectedConf"
@@ -184,45 +168,18 @@
                 android:paddingTop="35dp"
                 android:text="Today, 12:30 AM"
                 android:textColor="@color/gray"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </RelativeLayout>
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="10.dp"></View>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/goBack"
-            android:layout_width="120dp"
-            android:layout_height="55dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:layout_marginHorizontal="10dp"
-            android:backgroundTint="@color/black"
-            android:textColor="@color/white"
-            android:text="Cancel"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/approve"
-            android:layout_width="120dp"
-            android:layout_height="55dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:layout_marginHorizontal="10dp"
-            android:layout_alignParentRight="true"
-            android:backgroundTint="@color/black"
-            android:textColor="@color/white"
-            android:text="Approve"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
-        </RelativeLayout>
     </LinearLayout>
-
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="4.dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/white"
+        tools:ignore="MissingConstraints"></View>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

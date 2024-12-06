@@ -1,6 +1,8 @@
 package com.inblocks.meterscan
 
 import android.Manifest
+import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -8,7 +10,9 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +22,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.Camera
@@ -28,16 +33,19 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.gson.Gson
 import com.inblocks.meterscan.Constants.LABELS_PATH
 import com.inblocks.meterscan.Constants.LABELS_SEC_PATH
 import com.inblocks.meterscan.Constants.MODEL_PATH
 import com.inblocks.meterscan.Constants.NUMBER_PATH
 import com.inblocks.meterscan.databinding.ActivityMainBinding
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import kotlin.io.encoding.Base64
 
 class MainActivity : AppCompatActivity() {
 
@@ -128,6 +136,13 @@ class MainActivity : AppCompatActivity() {
             else {
                 capturePhoto()
             }
+        }
+
+        binding.history.setOnClickListener {
+            Intent(this, HistoryView::class.java).apply {
+                startActivity(this)
+            }
+
         }
 
         binding.upload.setOnClickListener{
@@ -244,6 +259,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+        fun saveDataList(meterData: MeterData, key: String?) {
+        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor: SharedPreferences.Editor = prefs.edit()
+        val gson = Gson()
+        val json: String = gson.toJson(meterData)
+        editor.putString(key, json)
+        editor.apply()
+    }
+
+    fun getDataList(key: String?):  MeterData? {
+        val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val gson = Gson()
+        val json: String = prefs.getString(key!!, null).toString()
+
+        var data =  gson.fromJson(json, MeterData().javaClass)
+        return data
+    }
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
@@ -278,7 +310,14 @@ class MainActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
+   @RequiresApi(Build.VERSION_CODES.O)
+   private fun convertBitmapToBase64(bitmap: Bitmap):  String {
+       val baos: ByteArrayOutputStream = ByteArrayOutputStream()
+       bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+       val b: ByteArray = baos.toByteArray()
 
+       return java.util.Base64.getEncoder().encodeToString(b)
+   }
     private fun showNoMeterDialog() {
         // Inflate the custom dialog layout
         val dialogView: View = LayoutInflater.from(this).inflate(R.layout.no_meter_dialog, null)
@@ -297,11 +336,13 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun showUnitialog( value :String ,  unit :String , mdDetectedValue :  Boolean, displayImage: Bitmap,
-                               mdConf: Float, valConf: Float, uConf: Float) {
+    private fun showUnitialog(
+        value: String, unit: String, mdDetectedValue: Boolean, displayImage: Bitmap,
+        mdConf: Float, valConf: Float, uConf: Float,
+    ) {
         // Inflate the custom dialog layout
         val dialogView: View = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
-
+        var meterDataModel = MeterDataModel()
         // Initialize buttons
         val cancelButton = dialogView.findViewById<Button>(R.id.goBack)
         val okButton = dialogView.findViewById<Button>(R.id.approve)
@@ -315,9 +356,10 @@ class MainActivity : AppCompatActivity() {
         val valueConf = dialogView.findViewById<TextView>(R.id.valueConf)
 
         displayImageHolder.setImageBitmap(displayImage)
+        meterDataModel.meterImage = convertBitmapToBase64(displayImage)
         if (unit.equals("")) {
-            unitText.text = "null"
-            unitConf.text = "null"
+            unitText.text = "NA"
+            unitConf.text = "NA"
         }
         else {
             unitText.text = unit
@@ -325,8 +367,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (value.equals("")){
-            valText.text = "null"
-            valueConf.text = "null"
+            valText.text = "NA"
+            valueConf.text = "NA"
         }
         else {
             valText.text = value
@@ -336,13 +378,21 @@ class MainActivity : AppCompatActivity() {
         if(mdDetectedValue)
         {
             mdDetected.text =  "Yes"
+            meterDataModel.maxDemand = "Yes"
+            meterDataModel.demandPer = (mdConf*100).toString() + "%"
             mdDetectedConf.text = (mdConf*100).toString() + "%"
         }
         else
         {
             mdDetected.text =  "No"
-            mdDetectedConf.text = "null"
+            mdDetectedConf.text = "NA"
+            meterDataModel.maxDemand = "NO"
+            meterDataModel.demandPer = "NA"
         }
+        meterDataModel.unit =  unit
+        meterDataModel.unitPer = (uConf*100).toString() + "%"
+        meterDataModel.reading =  value
+        meterDataModel.readingPer = (valConf*100).toString() + "%"
 
 
         // Create and show the dialog
@@ -364,16 +414,39 @@ class MainActivity : AppCompatActivity() {
 
         okButton.setOnClickListener {
             // Handle "Join Waitlist" action
+
+             var meterDataList =  getDataList("meterData")
+            if(meterDataList == null)
+            {
+                var meterDataList = MeterData()
+                var arrayList  = ArrayList<MeterDataModel>()
+                arrayList.add(meterDataModel)
+                meterDataList.data =  arrayList
+               saveDataList(meterDataList,"meterData")
+            }
+            else
+            {
+                meterDataList.data.add(meterDataModel)
+                saveDataList(meterDataList,"meterData")
+            }
             binding.capturedImageView.visibility =ImageView.GONE
             binding.previewView.visibility = ImageView.VISIBLE
             binding.scanningLine.visibility = View.VISIBLE
             binding.buttonView.text = "Capture"
             animateScannerLine()
             detector = MeterDetector(baseContext, MODEL_PATH, LABELS_PATH)
+
+
+
+
+
+
+
             dialog.dismiss()
         }
         dialog.show()
     }
+
 
     fun processMeterOrder(boundingBoxes: List<BoundingBox>, display: Bitmap) {
         val mapBox = mutableMapOf<Float, List<Float>>()
